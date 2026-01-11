@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Em qualquer idioma</title>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #7f7cff, #b983ff);
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+            transition: background 4s;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 40px 50px;
+            border-radius: 25px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.35);
+            max-width: 520px;
+        }
+
+        h1 {
+            font-size: 2.3em;
+            margin-bottom: 20px;
+        }
+
+        #mensagem {
+            font-size: 1.6em;
+            transition: opacity 0.6s, transform 0.6s;
+        }
+
+        #contador {
+            margin-top: 12px;
+            font-size: 1em;
+            opacity: 0.85;
+            transition: opacity 0.6s;
+        }
+
+        .fade-out {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        #overlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1));
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 6s ease-in-out;
+            z-index: 1;
+        }
+
+        .escurecer {
+            opacity: 1;
+        }
+
+        .final {
+            font-size: 1.9em;
+            font-weight: bold;
+            transform: scale(1.05);
+        }
+
+        .apagar-container {
+            transition: opacity 4s ease;
+            opacity: 0.4;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="overlay"></div>
+
+    <div class="container">
+        <h1>Eu te amo em todas as línguas</h1>
+        <div id="mensagem" class="fade-in">Português: Eu te amo</div>
+        <div id="contador" class="fade-in">1 / 100</div>
+    </div>
+
+    <script>
+        const frasesBase = [
+            "Português: Eu te amo",
+            "Inglês: I love you",
+            "Espanhol: Te amo",
+            "Francês: Je t'aime",
+            "Italiano: Ti amo",
+            "Alemão: Ich liebe dich",
+            "Holandês: Ik hou van jou",
+            "Sueco: Jag älskar dig",
+            "Norueguês: Jeg elsker deg",
+            "Dinamarquês: Jeg elsker dig",
+            "Finlandês: Rakastan sinua",
+            "Islandês: Ég elska þig",
+            "Irlandês: Tá grá agam ort",
+            "Galês: Rwy'n dy garu di",
+            "Escocês: Tha gaol agam ort",
+            "Latim: Te amo",
+            "Russo: Я тебя люблю",
+            "Ucraniano: Я тебе кохаю",
+            "Polonês: Kocham cię",
+            "Tcheco: Miluji tě",
+            "Eslovaco: Milujem ťa",
+            "Húngaro: Szeretlek",
+            "Romeno: Te iubesc",
+            "Búlgaro: Обичам те",
+            "Sérvio: Волим те",
+            "Croata: Volim te",
+            "Esloveno: Ljubim te",
+            "Albanês: Të dua",
+            "Grego: Σ'αγαπώ",
+            "Turco: Seni seviyorum",
+            "Árabe: أنا أحبك",
+            "Hebraico: אני אוהב אותך",
+            "Persa: دوستت دارم",
+            "Hindi: मैं तुमसे प्यार करता हूँ",
+            "Japonês: 愛してる",
+            "Chinês: 我爱你",
+            "Coreano: 사랑해",
+            "Tailandês: ฉันรักคุณ",
+            "Vietnamita: Anh yêu em",
+            "Indonésio: Aku cinta kamu",
+            "Tagalog: Mahal kita",
+            "Swahili: Nakupenda",
+            "Zulu: Ngiyakuthanda",
+            "Africâner: Ek het jou lief",
+            "Amárico: እወድሃለሁ",
+            "Iorubá: Mo nifẹ rẹ",
+            "Igbo: A hụrụ m gị n'anya",
+            "Somali: Waan ku jeclahay",
+            "Malgaxe: Tiako ianao",
+            "Maori: Aroha ahau ki a koe",
+            "Havaiano: Aloha wau iā ʻoe",
+            "Samoano: Ou te alofa ia te oe",
+            "Esperanto: Mi amas vin"
+        ];
+
+
+        let frases = [];
+        while (frases.length < 100) {
+            frases = frases.concat(frasesBase);
+        }
+        frases.length = 100;
+
+        const total = frases.length;
+        let index = 0;
+
+        const mensagem = document.getElementById("mensagem");
+        const contador = document.getElementById("contador");
+        const overlay = document.getElementById("overlay");
+
+        function vibrar() {
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        setInterval(() => {
+            mensagem.classList.add("fade-out");
+            contador.classList.add("fade-out");
+
+            setTimeout(() => {
+                index++;
+
+
+                if (index === total) {
+                    overlay.classList.add("escurecer");
+                    document.querySelector(".container")
+                        .classList.add("apagar-container");
+
+                    vibrar();
+
+                    mensagem.textContent = "Em qualquer idioma, ainda é você.";
+                    mensagem.classList.remove("fade-out");
+                    mensagem.classList.add("fade-in", "final");
+
+                    contador.textContent = "";
+                    return;
+                }
+
+                mensagem.textContent = frases[index];
+                contador.textContent = `${index + 1} / ${total}`;
+
+                mensagem.classList.remove("fade-out");
+                contador.classList.remove("fade-out");
+
+                mensagem.classList.add("fade-in");
+                contador.classList.add("fade-in");
+
+                vibrar();
+            }, 600);
+        }, 4000);
+    </script>
+
+</body>
+
+</html>
